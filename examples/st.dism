@@ -1,0 +1,29 @@
+mov 1 1
+mov 2 2
+mov 3 3
+mov 4 4
+mov 5 5
+mov 6 6 
+mov 7 7 
+
+str 7 -7 1
+str 7 1000 2
+str 7 0 7
+str 7 3 6
+
+lod 4 0 0
+ptn 4
+
+lod 4 7 1000
+ptn 4
+
+lod 4 7 0
+ptn 4
+
+lod 4 7 3
+ptn 4
+
+lod 4 7 6
+ptn 4
+
+hlt 0

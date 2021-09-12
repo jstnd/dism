@@ -1,0 +1,5 @@
+#L0: jmp 0 #L2 ; jump to #L2
+#L1: hlt 0     ; halt with code 0
+#L2: mov 1 10  ; move the value 10 into register 1
+#L3: jmp 1 -9  ; should jump to the halt instruction
+

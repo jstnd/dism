@@ -1,0 +1,7 @@
+;jmp 0 9        ;error msg
+;jmp 0 -5       ;error msg
+;mov 2 -3       ;error msg
+mov 2 2        ;ok
+sub 0 0 2      ;r[0] should have 0, not -2
+;str 0 -1 5     ;error msg
+               ;error: have to halt the DISM with an explicit hlt instruction

@@ -1,0 +1,4 @@
+rdn 2
+mov 1 #END
+#END: hlt 1 ;halt with code 2 (R[1]=#END=2)
+

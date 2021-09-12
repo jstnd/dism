@@ -1,0 +1,2 @@
+ptn 0 ;print 0 (register 0 contains value 0) 
+hlt 1 ;halt with code 0 (register 1 contains value 0)
