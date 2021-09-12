@@ -44,7 +44,7 @@ class Lexer:
             case "#": self._label()
             case ";": self._comment()
             case _ if c.isalpha(): self._instruction()
-            case _ if c.isdigit(): self._number()
+            case _ if c.isdigit() or c == "-": self._number()
             case _: return  # TODO: implement error
 
     def _at_end(self) -> bool:
@@ -62,6 +62,9 @@ class Lexer:
         if self._at_end():
             return "\0"
         return self._source[self._current]
+
+    def _previous(self) -> str:
+        return self._source[self._current - 1]
 
     def _label(self) -> None:
         while self._peek().isalnum() and not self._at_end():
@@ -85,6 +88,9 @@ class Lexer:
         self._add_token(typ)
 
     def _number(self) -> None:
+        if self._previous() == "-" and not self._peek().isdigit():
+            return  # TODO: implement error
+
         while self._peek().isdigit():
             self._advance()
 
