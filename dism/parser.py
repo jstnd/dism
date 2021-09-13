@@ -62,79 +62,69 @@ class Parser:
 
     def _add(self) -> Instruction:
         opcode: Token = self._previous()
-        first: Token = self._int()
-        second: Token = self._int()
-        third: Token = self._int()
-        return Instruction(opcode, first, second, third)
+        args: list[Token] = self._get_args(3)
+        return Instruction(opcode, *args)
 
     def _sub(self) -> Instruction:
         opcode: Token = self._previous()
-        first: Token = self._int()
-        second: Token = self._int()
-        third: Token = self._int()
-        return Instruction(opcode, first, second, third)
+        args: list[Token] = self._get_args(3)
+        return Instruction(opcode, *args)
 
     def _mul(self) -> Instruction:
         opcode: Token = self._previous()
-        first: Token = self._int()
-        second: Token = self._int()
-        third: Token = self._int()
-        return Instruction(opcode, first, second, third)
+        args: list[Token] = self._get_args(3)
+        return Instruction(opcode, *args)
 
     def _mov(self) -> Instruction:
         opcode: Token = self._previous()
-        first: Token = self._int()
-        second: Token = self._int()
-        return Instruction(opcode, first, second)
+        args: list[Token] = self._get_args(2)
+        return Instruction(opcode, *args)
 
     def _lod(self) -> Instruction:
         opcode: Token = self._previous()
-        first: Token = self._int()
-        second: Token = self._int()
-        third: Token = self._int()
-        return Instruction(opcode, first, second, third)
+        args: list[Token] = self._get_args(3)
+        return Instruction(opcode, *args)
 
     def _str(self) -> Instruction:
         opcode: Token = self._previous()
-        first: Token = self._int()
-        second: Token = self._int()
-        third: Token = self._int()
-        return Instruction(opcode, first, second, third)
+        args: list[Token] = self._get_args(3)
+        return Instruction(opcode, *args)
 
     def _jmp(self) -> Instruction:
         opcode: Token = self._previous()
-        first: Token = self._int()
-        second: Token = self._int()
-        return Instruction(opcode, first, second)
+        args: list[Token] = self._get_args(2)
+        return Instruction(opcode, *args)
 
     def _beq(self) -> Instruction:
         opcode: Token = self._previous()
-        first: Token = self._int()
-        second: Token = self._int()
-        third: Token = self._int()
-        return Instruction(opcode, first, second, third)
+        args: list[Token] = self._get_args(3)
+        return Instruction(opcode, *args)
 
     def _bgt(self) -> Instruction:
         opcode: Token = self._previous()
-        first: Token = self._int()
-        second: Token = self._int()
-        third: Token = self._int()
-        return Instruction(opcode, first, second, third)
+        args: list[Token] = self._get_args(3)
+        return Instruction(opcode, *args)
 
     def _rdn(self) -> Instruction:
         opcode: Token = self._previous()
-        first: Token = self._int()
-        return Instruction(opcode, first)
+        args: list[Token] = self._get_args(1)
+        return Instruction(opcode, *args)
 
     def _ptn(self) -> Instruction:
         opcode: Token = self._previous()
-        first: Token = self._int()
-        return Instruction(opcode, first)
+        args: list[Token] = self._get_args(1)
+        return Instruction(opcode, *args)
 
     def _hlt(self) -> Instruction:
         opcode: Token = self._previous()
-        first: Token = self._int()
-        return Instruction(opcode, first)
+        args: list[Token] = self._get_args(1)
+        return Instruction(opcode, *args)
+    
+    def _get_args(self, num: int) -> list[Token]:
+        args = []
+        for _ in range(num):
+            args.append(self._int())
+        return args
 
     def _int(self) -> Token:
         if self._match(TokenType.INT, TokenType.LABEL):
