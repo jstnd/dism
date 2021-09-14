@@ -1,5 +1,6 @@
 from typing import Any
 
+from .errors import DismErrors
 from .tokens import TokenType, Token
 
 
@@ -43,9 +44,14 @@ class Lexer:
             case ":": self._add_token(TokenType.COLON)
             case "#": self._label()
             case ";": self._comment()
+            case "-":
+                if self._peek().isdigit():
+                    self._number()
+                else:
+                    DismErrors.error(self._line, f"Syntax error: Unexpected character '-'")
             case _ if c.isalpha(): self._instruction()
-            case _ if c.isdigit() or c == "-": self._number()
-            case _: return  # TODO: implement error
+            case _ if c.isdigit(): self._number()
+            case _: DismErrors.error(self._line, f"Syntax error: Unexpected character '{c}'")
 
     def _at_end(self) -> bool:
         return self._current >= len(self._source)
@@ -83,14 +89,11 @@ class Lexer:
         text: str = self._source[self._start:self._current]
         typ: TokenType = Lexer.instructions.get(text)
         if typ is None:
-            ...  # TODO: implement error
+            DismErrors.error(self._line, f"Syntax error: Unexpected character(s) '{text}'")
 
         self._add_token(typ)
 
     def _number(self) -> None:
-        if self._previous() == "-" and not self._peek().isdigit():
-            return  # TODO: implement error
-
         while self._peek().isdigit():
             self._advance()
 
