@@ -1,5 +1,6 @@
 from typing import Final
 
+from .errors import DismErrors
 from .tokens import Token, TokenType
 
 
@@ -28,13 +29,15 @@ class Parser:
         while not self._at_end():
             token = self._advance()
             match token.typ:
-                case TokenType.INT | TokenType.COLON:
-                    ...  # TODO: implement error
+                case TokenType.INT:
+                    DismErrors.error(token.line, f"Unexpected number '{token.literal}'")
+                case TokenType.COLON:
+                    DismErrors.error(token.line, "Unexpected ':'")
                 case TokenType.LABEL:
                     if self._match(TokenType.COLON):
                         self._instructions.append(self._labeled_instruction(token))
-                    else:  # TODO: implement error
-                        ...
+                    else:
+                        DismErrors.error(token.line, f"Unexpected label: '{token.literal}'")
                 case _:  # INSTRUCTION
                     self._instructions.append(self._instruction())
 
@@ -53,7 +56,7 @@ class Parser:
             case TokenType.RDN: return self._rdn()
             case TokenType.PTN: return self._ptn()
             case TokenType.HLT: return self._hlt()
-            case _: ...  # TODO: implement error
+            case _: DismErrors.error(instruction.line, f"Unexpected token: {instruction.typ}")
 
     def _labeled_instruction(self, label: Token) -> Instruction:
         self._labels[label.literal] = len(self._instructions)
@@ -130,7 +133,7 @@ class Parser:
         if self._match(TokenType.INT, TokenType.LABEL):
             return self._previous()
         else:
-            ...  # TODO: implement error
+            DismErrors.error(self._peek().line, "Expected integer or label as instruction argument(s)")
 
     def _at_end(self) -> bool:
         return self._peek().typ == TokenType.EOF
