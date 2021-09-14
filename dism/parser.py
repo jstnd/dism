@@ -56,7 +56,7 @@ class Parser:
             case TokenType.RDN: return self._rdn()
             case TokenType.PTN: return self._ptn()
             case TokenType.HLT: return self._hlt()
-            case _: DismErrors.error(instruction.line, f"Unexpected token: {instruction.typ}")
+            case _: DismErrors.error(instruction.line, f"Unexpected token: {instruction.lexeme}")
 
     def _labeled_instruction(self, label: Token) -> Instruction:
         self._labels[label.literal] = len(self._instructions)
