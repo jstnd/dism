@@ -57,7 +57,8 @@ class Lexer:
         return self._current >= len(self._source)
 
     def _add_token(self, typ: TokenType, literal: Any = None) -> None:
-        self._tokens.append(Token(typ, literal, self._line))
+        text: str = self._source[self._start:self._current]
+        self._tokens.append(Token(typ, text, literal, self._line))
 
     def _advance(self) -> str:
         c: str = self._source[self._current]

@@ -22,10 +22,11 @@ class TokenType(Enum):
 
 
 class Token:
-    def __init__(self, typ: TokenType, literal: Any, line: int):
+    def __init__(self, typ: TokenType, lexeme: str, literal: Any, line: int):
         self.typ = typ
+        self.lexeme = lexeme
         self.literal = literal
         self.line = line
 
     def __str__(self):
-        return f"{self.typ} ({self.literal}) : line {self.line}"
+        return f"{self.typ} ({self.lexeme}) : line {self.line}"
